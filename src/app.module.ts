@@ -5,10 +5,22 @@ import { UserModule } from './user/user.module';
 import { AccountModule } from './account/account.module';
 import { AuthModule } from './auth/auth.module';
 import { MongooseModule } from '@nestjs/mongoose';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb://localhost:27017/h-api-server'),
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: [`./.env.${process.env.STAGE}`],
+    }),
+    MongooseModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: async (configService: ConfigService) => {
+        return { uri: configService.get('DATABASE_URL') };
+      },
+    }),
+    // MongooseModule.forRoot(process.env.DATABASE_URL),
     UserAppModule,
     WorkspaceModule,
     UserModule,

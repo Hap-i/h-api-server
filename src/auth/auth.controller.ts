@@ -1,4 +1,5 @@
 import { Controller, Get, Post, Req, Res, UseGuards } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { Request, Response } from 'express';
 import { User } from 'src/user/schemas/user.schema';
 import { AuthService } from './auth.service';
@@ -6,12 +7,15 @@ import { GithubOauthGuard } from './guards/github-oauth.guard';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly authService: AuthService,
+    private readonly configService: ConfigService,
+  ) {}
 
-  @Get('login')
+  @Get('github')
   @UseGuards(GithubOauthGuard)
-  async login() {
-    console.log('inside login');
+  async github() {
+    console.log('inside githhub login');
     return null;
   }
 
@@ -25,7 +29,7 @@ export class AuthController {
     const token = await this.authService.createJwtToken({
       githubId: user.githubId,
     });
-    res.cookie('_hptk', token, {
+    res.cookie(this.configService.get('JWT_COOKIE'), token, {
       httpOnly: true,
       secure: false,
     });
