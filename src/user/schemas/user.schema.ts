@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import mongoose, { Document } from 'mongoose';
+import { Account } from 'src/account/schemas/account.schema';
 
 @Schema({ timestamps: true })
 export class User {
@@ -8,6 +9,12 @@ export class User {
 
   @Prop({ required: true, unique: true })
   githubId: string;
+
+  @Prop({
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Account',
+  })
+  account: Account;
 
   @Prop()
   email: string;

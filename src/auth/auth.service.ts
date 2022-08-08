@@ -13,8 +13,13 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
-  async getUserByGithubId(findUserDto: FindUserDto): Promise<User> {
-    return this.userService.getUserByGithubId(findUserDto.githubId);
+  async getUserByGithubId(findUserDto: FindUserDto): Promise<User> | undefined {
+    try {
+      const user = this.userService.getUserByGithubId(findUserDto.githubId);
+      return user;
+    } catch (err) {
+      return null;
+    }
   }
 
   async createUser(createUserDto: CreateUserDto): Promise<User> {
