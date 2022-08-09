@@ -15,7 +15,6 @@ export class AuthController {
   @Get('github')
   @UseGuards(GithubOauthGuard)
   async github() {
-    console.log('inside githhub login');
     return null;
   }
 
