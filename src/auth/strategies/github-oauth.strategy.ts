@@ -30,16 +30,6 @@ export class GithubOauthStrategy extends PassportStrategy(Strategy) {
     // 2. if user not found create account
     if (!user) {
       const user = await this.authService.signup(profile);
-      // const user = await this.authService.createUser({
-      //   name: profile.displayName,
-      //   githubId: profile.id,
-      //   email: undefined,
-      //   password: undefined,
-      // });
-      // const account = await this.accountService.createAccount({
-      //   name: null,
-      //   owner: user,
-      // });
       return user;
     }
     // 3. return user
