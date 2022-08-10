@@ -54,6 +54,7 @@ export class AuthService {
       users: [user],
       owner: user,
     });
+    const result = await this.userService.updateAccount(user, account);
     return user;
   }
 }
