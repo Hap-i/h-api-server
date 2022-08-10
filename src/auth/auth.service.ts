@@ -32,7 +32,8 @@ export class AuthService {
   }
 
   async createJwtToken(jwtPayload: JwtPayload): Promise<string> {
-    return await this.jwtService.signAsync(jwtPayload);
+    const token = await this.jwtService.signAsync(jwtPayload);
+    return token;
   }
 
   async signup(profile: Profile): Promise<User> {

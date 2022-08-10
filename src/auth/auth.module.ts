@@ -12,6 +12,9 @@ import { JwtStrategy } from './strategies/jwt-auth.strategy';
 
 @Module({
   imports: [
+    UserModule,
+    AccountModule,
+    WorkspaceModule,
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.registerAsync({
       imports: [ConfigModule],
@@ -23,9 +26,6 @@ import { JwtStrategy } from './strategies/jwt-auth.strategy';
         };
       },
     }),
-    UserModule,
-    AccountModule,
-    WorkspaceModule,
   ],
   controllers: [AuthController],
   providers: [AuthService, GithubOauthStrategy, JwtStrategy],
